@@ -22,7 +22,7 @@ function initialize()
 			template = data;
 			$.get("core/instruct0.html", function(data) {
 				$("#instructions").html(data);
-				$("#subID").val(randomString(10));
+				$("#subID").null;
 			});
 		});
 	});
@@ -34,7 +34,12 @@ function loadInstructions(stage)
 	{
 		case 'one':
 			sub = $("#subID").val();
-			if(sub.search('/[^a-zA-Z0-9]/g')==-1)
+			lastname = $("#lastname").val();
+			firstname = $("#firstname").val();
+			school = $("#school").val();
+			grade = $("#grade").val();
+			prof = $("#prof").val();
+			if(sub.search('/[^a-zA-Z0-9]/g')==-1 && sub!=null && sub!="" && lastname.search('/[^a-zA-Z0-9]/g')==-1 && lastname!=null && lastname!="" )
 			{
 				$.get("core/instruct1.html", function(data) {
 					$("#instructions").html(data);
@@ -564,8 +569,11 @@ function checkDemographics()
 // and passes it to writeFile.php to be written by the server
 function WriteFile()
 {
+	
 	var subject = sub;
+	var lastname_towrite = lastname;
 	subject = subject.length==0 ? "unknown" : subject;
+	lastname_towrite = lastname_towrite.length==0 ? "unknownLN" : lastname_towrite;
 	var str = "";
 	for (i=0; i<roundArray.length; i++)
 	{
@@ -576,11 +584,19 @@ function WriteFile()
 			str += roundArray[i][j].catIndex+",";
 			str += roundArray[i][j].errors+",";
 			str += (roundArray[i][j].endtime - roundArray[i][j].starttime)+"\n";
+			var catIndex=roundArray[i][j].catIndex;
+			var category=roundArray[i][j].category;
+			var datai=i;
+			var dataj=j;
+			var mseconds=(roundArray[i][j].endtime - roundArray[i][j].starttime);
+			
 		}
 	}
 	
+	
     $.post("core/fileManager.php", { 'op':'writeoutput', 'template':template.name, 
- 			'subject': subject, 'data': str });	
+ 			'subject': subject, 'lastname_towrite': lastname_towrite,  'data': str });	
+ 	
 	// notify user of success?
 }
 

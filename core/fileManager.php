@@ -463,10 +463,10 @@ if( isset($_REQUEST['op']) )
 					$folder_dir = "../templates/".$_REQUEST['template']."/output/";
 
 					$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ;
-
+					$lastname = isset( $_REQUEST['lastname_towrite'] ) ? $_REQUEST['lastname_towrite'] : 'unknownLN' ;
 					$data = $_REQUEST["data"]; 
 					$datetxt = date('Y-m-d-H-s');
-					$fh = fopen($folder_dir. $_REQUEST['template'] . "-" . $sub . '-' . $datetxt . '.txt', 'w');
+					$fh = fopen($folder_dir. $_REQUEST['template'] . "-" . $sub . '-' . $lastname . '-' . $datetxt . '.txt', 'w');
 					fwrite($fh, $data);
 					fclose($fh);
 					
